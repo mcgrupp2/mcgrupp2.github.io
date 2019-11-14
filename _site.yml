@@ -1,8 +1,0 @@
-name: "The Dude"
-navbar:
-  title:"Abide"
-  left:
-    - text: "Butts"
-      href: index.html
-    - text: "recursion"
-      href: index.html
