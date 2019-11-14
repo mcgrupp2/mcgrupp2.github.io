@@ -7,5 +7,3 @@ navbar:
     - text: "About Me"
       href: about_me.html
       
-
-theme: jekyll-theme-midnight
