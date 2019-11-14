@@ -3,4 +3,6 @@ navbar:
   title: "Blue"
   left:
     - text: "Huge"
+      href: README.md
+    - text: "Good"
       href: index.html
