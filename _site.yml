@@ -1,0 +1,6 @@
+name: "Dude"
+navbar:
+  title: "Blue"
+  left:
+    - text: "Huge"
+      href: index.html
