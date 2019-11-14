@@ -10,4 +10,8 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
-# It's clearly all about spacing
+# Thank you for visiting!!!
+## I hope you find this website to be entertaining, and maybe informative
+### Please use these tasty nuggets of advise:
+- Ride a bicycle frequently and certainly oftenly
+- What ever you do, take care of your shoes
