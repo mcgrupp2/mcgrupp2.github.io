@@ -4,3 +4,5 @@ navbar:
   left:
     - text: "Butts"
       href: index.html
+    - text: "recursion"
+      href: index.html
