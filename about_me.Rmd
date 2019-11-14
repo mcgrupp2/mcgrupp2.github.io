@@ -1,9 +1,98 @@
 ---
-title: "about_me"
+title: "About Me....Favorite Martian Superhero :-D !!!"
 output: html_document
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+
+# Martian Manhunter aka J'onn J'onzz
+### "Ain't Nothing but a Martian Thang, Bay-Bay"
+
+
+![Source: https://lyrafay.tumblr.com/post/68000359516/jthenr-comics-vault-today-in-comic-book](imgs/jonjonz.jpg)
+
+
+Please enjoy!
+
+## Publisher: DC
+
+## Full name:	J'onn J'onzz
+
+#### Species:	Green Martian
+
+#### Place of origin:	Mars
+
+#### Team affiliations:	
+- Justice League
+- Outsiders
+- Stormwatch
+- Black Lantern Corps
+- Justice League United
+- DEO
+- Justice League International
+
+#### Partnerships:	Zook
+
+#### Notable aliases:
+- John Jones
+- Gold Hunter
+- Hank Henshaw
+
+#### Abilities	
+- Superhuman Strength (Regular Martian Strength)
+- Superhuman Speed (Regular Martian Speed)
+- Superhuman Endurance (Regular Martian Endurance)
+- Superhuman Breath (Regular Martian Breath)
+- Superhuman Vision (Regular Martian Vision)
+- Heat Vision
+- Electromagnetic Spectrum Vision
+- Microscopic Vision
+- X-ray Vision
+- Night Vision
+- Photographic memory
+- Genius-level Intellect, compared to puny humans...
+- Shapeshifting
+- Invisibility
+- Intangibility
+- Regenerative Healing Factor
+- Flight, That's levitation holmes
+- Martian Nine Senses, we LAUGH at five senses...ON INTO THE NIGHT
+- Telekinesis
+- Telepathy
+
+#### Weaknesses
+- Severe vulnerability to fire, Mars is a cold desolate place...
+
+
+#### Known Enemies
+- Imperium 
+- Bel Juz 
+- B'enn B'urnzz
+- Bette Noir
+- B'rett
+- Cay'an 
+- Commander Blanx
+- Despero
+- D'kay D'razz
+- The Getaway King
+- The Headmaster
+- The Headmen
+- The Prophet
+- The Human Flame
+- Kanto
+- Ma'alefa'ak (also called Malefic)
+- The Marshal
+- The Master Gardener
+- Mister V
+- Mongul
+- Professor Arnold Hugo
+- Robo-Chargers
+- Thythen
+- TOR 
+- VULTURE
+- The White Martians 
+- The Yellow Martians
+
 
