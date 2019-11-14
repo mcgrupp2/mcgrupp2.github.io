@@ -17,6 +17,7 @@ knitr::opts_chunk$set(echo = TRUE)
 - What ever you do, take care of your shoes
 - Sometimes the bear will eat you
 - Gary Cole is the man
+- Computers are useful
 
 
 ## There will be some classwork presented on this website
