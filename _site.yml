@@ -2,5 +2,7 @@ name: "mcgrupp.github.io"
 navbar:
   title: "fleethound called mcgrupp"
   left:
-    - text: "Good"
+    - text: "Main"
       href: index.html
+    - text: "About Me"
+      href: about_me.html
