@@ -12,6 +12,14 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Thank you for visiting!!!
 ## I hope you find this website to be entertaining, and maybe informative
-### Please use these tasty nuggets of advise:
+### Please use these nuggets of wisdom in your everyday life as you see fit:
 - Ride a bicycle frequently and certainly oftenly
 - What ever you do, take care of your shoes
+- Sometimes the bear will eat you
+- Gary Cole is the man
+
+
+## There will be some classwork presented on this website
+### Feel free to browse this site and check out my work
+### The navbar should explain it
+- The bio may not necessarily be representative of the site Admin
