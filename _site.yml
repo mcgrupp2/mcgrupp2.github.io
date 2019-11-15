@@ -7,7 +7,7 @@ navbar:
     - text: "About Me"
       href: about_me.html
     - text: "Beer Case Study Project"
-      href: _BeerAnalysis.html
+      href: BeerAnalysis.html
     - text: "VeryShinyApp"
       href: shiny.html
     - text: "Takeaways"
