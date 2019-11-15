@@ -1,0 +1,14 @@
+---
+title: "takeaways"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Takeaways:
+- This unit was amazing.
+- I'm having trouble with updates, I push to the cloud always and sometimes not...after I clear my cache something is funky
+- It was great using github seamlessly with this unit, it was great experience
+

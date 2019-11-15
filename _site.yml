@@ -9,6 +9,6 @@ navbar:
     - text: "Beer Case Study Project"
       href: BeerAnalysis.html
     - text: "VeryShinyApp"
-      href: shiny.html
+      href: https://mcgrupp2.shinyapps.io/mcgrupps_shinyApp/
     - text: "Takeaways"
       href: takeaways.html
