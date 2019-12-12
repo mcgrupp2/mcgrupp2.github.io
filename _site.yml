@@ -10,5 +10,3 @@ navbar:
       href: BeerAnalysis.html
     - text: "Attrition Case Study Project"
       href: RUPP_cs2_Attrition.html
-    - text: "Takeaways"
-      href: takeaways.html
