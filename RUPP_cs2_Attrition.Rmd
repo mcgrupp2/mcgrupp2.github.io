@@ -1,0 +1,669 @@
+---
+title: "Factors Leading to Employee Attrition"
+author: "Jason Rupp"
+subtitle: "DDS_6306"
+date: "6 Dec 19"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, cache = TRUE)
+```
+
+# Introduction
+
+DDSAnalytics is an analytics company that specializes in talent management solutions for Fortune 100 companies. Talent management is defined as the iterative process of developing and retaining employees. It may include workforce planning, employee training programs, identifying high-potential employees and reducing/preventing voluntary employee turnover (attrition). To gain a competitive edge over its competition, DDSAnalytics is planning to leverage data science for talent management. The executive leadership has identified predicting employee turnover as its first application of data science for talent management. Before the business green lights the project, they have tasked your data science team to conduct an analysis of existing employee data. 
+
+I have been given a dataset of employee data to analyize to identify factors that lead to attrition.  The top three factors that contribute to turnover will be identified backed up by evidence provided by analysis. In addition a model will be built to predict attrition, and a model to predict employee salary.
+
+***
+
+Install/Load Libraries
+```{r Install Libraries, echo= FALSE}
+#install.packages("tidyverse")
+#install.packages("naniar")
+#install.packages("caret")
+#install.packages('e1071', dependencies = TRUE)
+#install.packages("mlbench")
+#install.packages("fastDummies")
+#install.packages("xgboost")
+#install.packages("mlr")
+#install.packages("gridExtra")
+#install.packages("corrplot")
+#install.packages("reshape2")
+
+```
+
+```{r Load Libraries, results='hide'}
+
+library(plyr)
+library(tidyverse)
+library(naniar)
+library(caret)
+library(e1071)
+library(mlbench)
+library(fastDummies)
+library(xgboost)
+library(class)
+library(mlr)
+library(gridExtra)
+library(corrplot)
+library(reshape2)
+```
+
+
+***
+
+# Exploratory Data Analysis
+
+***
+
+### Load Data
+
+```{r dataLoad}
+# Read the data with attrition and salaries
+
+raw_df <- read.csv("data/CaseStudy2-data.csv")
+
+# Summary Stats of Dataframe
+
+dim(raw_df)
+
+names(raw_df)
+
+summary(raw_df)
+
+```
+
+
+#### Subsetting raw_df into Attrition groups
+
+```{r subsetting}
+
+# Employees w. Attrition
+
+attr_df <- raw_df %>% filter(Attrition == "Yes")
+
+# Employees w.o Atrrition
+
+nttr_df <- raw_df %>% filter(Attrition == "No")
+
+# Group Summaries to spot differences
+summary(attr_df)
+
+summary(nttr_df)
+
+```
+
+***
+
+### Check for missing values in the dataset
+
+```{r gg_miss_var, echo=FALSE}
+
+gg_miss_var(raw_df)
+
+```
+
+- No missing values in the primary dataset.
+
+***
+
+### Company Data Exploration
+
+We would like to visualize some data to get a general idea about this company. 
+
+***
+
+*The follow visualizations will represent the data from the primary dataset which was provided, the "Comp" datasets were not included in this EDA*
+
+```{r, echo=FALSE}
+
+ord2 <- c("Sales Representative",
+          "Sales Executive",
+       "Research Scientist",
+    "Laboratory Technician",
+"Healthcare Representative",
+   "Manufacturing Director",
+        "Research Director",
+          "Human Resources",
+                  "Manager")
+
+raw_df %>% ggplot(aes(x=JobRole, y=JobLevel, color = Department)) + 
+                  geom_jitter() + scale_x_discrete(limits = ord2) +
+                  theme(axis.text.x = element_text(angle=45, hjust = 1, size = 7))
+
+```
+
+The company is comprised of three departments as listed above, the departments were grouped to visualize professional growth through the company
+
+***
+
+```{r, echo=F}
+
+
+#incomeHist <- 
+#raw_df %>% 
+#  ggplot(aes(x = MonthlyIncome, y = ..count.., color = Department, fill = Department)) + 
+#  theme_minimal() +
+#  geom_histogram(bins = 50, alpha = 0.85) + 
+#  labs(x = "Monthly Income", y = "Number of Employees", title = "Range of Monthly Income")
+
+
+
+#raw_df %>% 
+#  ggplot(aes(x=reorder(JobLevel, MonthlyIncome), y=MonthlyIncome)) + 
+#  geom_boxplot(aes(fill=Attrition)) 
+#
+#
+#raw_df %>% 
+#  ggplot(aes(x=reorder(JobRole, MonthlyIncome), y=MonthlyIncome)) + 
+#  geom_boxplot(aes(fill=Attrition))
+```
+
+***
+
+```{r, echo=FALSE}
+
+#levelIncomeBox <- 
+raw_df %>% 
+  ggplot(aes(x=reorder(JobLevel, MonthlyIncome), y=MonthlyIncome, fill = as.factor(JobLevel))) + 
+  geom_boxplot() + 
+  labs(x = "Job Level", y = "Monthly Income", title = "Ranges of Income by Job Level") +
+  theme(legend.position = "none")
+
+```
+
+There is a postive correlation between job level and monthly income. A higher monthly income *may* decrease the chance of an employee's separation from the company, further analysis to follow.
+
+***
+
+```{r, echo=FALSE}
+#roleIncomeBox <- 
+raw_df %>% 
+  ggplot(aes(x=reorder(JobRole, MonthlyIncome), y=MonthlyIncome, fill = JobRole)) + 
+  geom_boxplot()+ 
+  labs(x = "Job Role", y = "Monthly Income", title = "Ranges of Income by Job Role") + 
+  theme(axis.text.x = element_text(angle=15, hjust = 1, size = 7), legend.position = "none")
+
+```
+
+This is supporting the point of income being tied to a specific job role/level. If a higher monthly income is a professional goal for an employee, harnessing an environment in which they feel like they can achieve this would likely lead to this person remaining with the company.
+
+Note on Monthly income:
+It is difficult to use monthly income as a determining factor for why an employee will remain with a company, as we have no "market value" to compare. This company could pay 25% more than all competitors with excellent benefits, and with the given data there is no means to support this evidence. The analysis will proceed with the assumption that the company pays market value for the level of talent. Additionally, a model will be developed to determine what the value for an employee is in terms of monthly salary to leverage with salary negotiations.
+
+***
+
+```{r, echo=FALSE, results='hide'}
+
+#Visualization Preps
+
+df_count  <-  raw_df %>% count(JobRole, JobLevel)
+
+df_count  <-  df_count %>% mutate(prop = round((df_count$n/sum(df_count$n))*100, 2))
+
+attr_count  <-  attr_df %>% count(JobRole, JobLevel, Department) 
+
+attr_count  <- attr_count %>% mutate(prop = round((attr_count$n/sum(attr_count$n))*100, 2))
+
+attr_count_labels <- attr_count
+
+attr_count_labels[9,] <- c("Manager", 5, "Research & Development", 3, 2.14)
+
+attr_count_labels[10,] <- c("Manager", 5, "Sales", 3, 2.14)
+
+nttr_count  <-  nttr_df %>% count(JobRole, JobLevel, Department) 
+
+nttr_count <- nttr_count %>% mutate(prop = round((nttr_count$n/sum(nttr_count$n))*100, 2))
+
+attr_count_labels[12,] <- c("Manager", 4, "Research & Development", 24, 3.03)
+
+attr_count_labels[13,] <- c("Manager", 5, "Sales", 3, 2.14)
+
+attr_count_labels[9,] <- c("Manager", 5, "Research & Development", 3, 2.14)
+
+roleMeans <- aggregate(raw_df[, "JobLevel"], list(raw_df$JobRole), mean) %>% arrange(x)
+
+dept_list <- as.character(unique(raw_df$Department))
+
+ord <- as.character(roleMeans[[1]])
+
+```
+
+```{r, echo=FALSE}
+
+raw_df %>% 
+  ggplot(aes(x=JobRole, y=JobLevel)) +
+  geom_count() + scale_x_discrete(limits = ord) +
+  geom_text(data = df_count, 
+    aes(df_count$JobRole, 
+        df_count$JobLevel, 
+        label = df_count$n), 
+    size = 3,
+    nudge_y = 0.1,
+    color = 'red') +
+  geom_text(data = df_count, 
+    aes(df_count$JobRole, 
+        df_count$JobLevel, 
+        label = paste(df_count$prop, "%")), 
+    size = 3,
+    nudge_y = -0.1,
+    color = 'blue') +
+  theme(axis.text.x = element_text(angle=45, hjust = 1))
+
+```
+The above graph shows that number of employees in each department.
+***
+
+```{r}
+attr_df %>% 
+  ggplot(aes(x=JobRole, y=JobLevel)) +
+  geom_count(na.rm = TRUE) + scale_x_discrete(limits = ord) +
+  geom_text(data = attr_count, 
+     aes(attr_count$JobRole, 
+       attr_count$JobLevel, 
+       label = attr_count_labels$n), 
+     size = 3,
+     nudge_y = 0.1,
+     color = 'red') +
+  geom_text(data = attr_count, 
+     aes(attr_count$JobRole, 
+       attr_count$JobLevel, 
+       label = paste(attr_count_labels$prop, "%")), 
+     size = 3,
+     nudge_y = -0.1,
+     color = 'blue') +
+  theme(axis.text.x = element_text(angle=45, hjust = 1))
+```
+
+The above graph shows the employees that have left the company. We can see from this visualization that it seems like the lower level employees are leaving in the greatest numbers.
+
+
+***
+
+Now that we have an idea of who it is that is leaving, it is time to investigate possible reasons.
+
+
+```{r dataPrep, echo=FALSE, results='hide'}
+
+# Data prep steps for modeling
+
+set.seed(22)
+
+fs_df <- cbind(raw_df[,2], raw_df[,4:36])
+
+# Create dummy columns for categorical data
+
+fs_df <- dummy_cols(fs_df)
+
+# Remove categorical cols, replaced with dummies
+
+f_df <- cbind(fs_df[,1],
+              fs_df[,3],
+              fs_df[,5:6],   
+              fs_df[,10],    
+              fs_df[,12],
+              fs_df[,13:14], 
+              fs_df[,16],    
+              fs_df[,18:20], 
+              fs_df[,23:25],
+              fs_df[,27:60],
+              fs_df[,62:63]) 
+
+lm_df <- f_df
+
+# Fix names
+
+names(f_df)[[1]] <- "Age"
+names(f_df)[[2]] <- "DailyRate"
+names(f_df)[[5]] <- "EnvironmentSatisfaction"
+names(f_df)[[6]] <-  "HourlyRate"
+names(f_df)[[9]] <- "JobSatisfaction"
+
+```
+
+***
+
+```{r featureScaling, echo=FALSE, results='hide'}
+
+#~~~~~~~~~~~~~~~~Scaling features
+
+cola <- c("DailyRate", "DistanceFromHome", "HourlyRate", "MonthlyIncome", "MonthlyRate",      
+          "PercentSalaryHike", "TotalWorkingYears", "YearsAtCompany", "YearsInCurrentRole", 
+          "YearsSinceLastPromotion", "YearsWithCurrManager")
+
+all_scaled_df <- f_df %>% mutate_at(vars(cola), list(~scale(.) %>% as.vector))
+
+
+
+```
+
+***
+
+```{r Remove Redundant Features + Corrplot, echo=FALSE, results='hide'}
+
+#~~~~~~~~~~~~~~~~~~~~~~~Remove Redundant Features + Corrplot
+
+correlationMatrix <- cor(all_scaled_df, use="pairwise.complete.obs")
+
+corrplot(correlationMatrix, tl.cex = 0.5)
+
+# Search for the highly correlated features to remove for ML models
+
+highlyCorrelated <- findCorrelation(correlationMatrix, cutoff = 0.75)
+
+f_df <- all_scaled_df[,-(highlyCorrelated)]
+
+```
+
+***
+
+```{r featureSelection, echo=FALSE, results='hide'}
+
+#~~~~~~~~~~~~~~~~~~~~Feature Selection (Automatic)------LONG LOAD
+
+control <- rfeControl(functions=rfFuncs, method="cv", number=10)
+
+results <- rfe(f_df, raw_df[,3], sizes=c(1:42), rfeControl=control)
+
+p_inx <- predictors(results)
+
+pd_df <- all_scaled_df[,p_inx]
+
+plot(results, type=c("g", "o"))
+
+```
+
+***
+
+```{r knn model Attrition}
+
+set.seed(22)
+iterations = 500
+numks = 20
+splitPerc = .7
+masterAcc = matrix(nrow = iterations, ncol = numks)
+masterSens = matrix(nrow = iterations, ncol = numks)
+masterSpec = matrix(nrow = iterations, ncol = numks)
+for(j in 1:iterations)
+{
+  k_inx = sample(1:dim(pd_df)[1],round(splitPerc * dim(pd_df)[1]))
+  
+  k_trn_data <- pd_df[k_inx,]
+  
+  k_tst_data <- pd_df[-k_inx,]
+  
+  #cl = raw_df[k_inx, 3]
+  
+  for(i in 1:numks)
+  {
+    classifications = knn(k_trn_data, 
+                          k_tst_data, 
+                          raw_df[k_inx, 3], 
+                          prob = TRUE, k = i)
+    table(classifications,raw_df[-k_inx, 3])
+    CM = confusionMatrix(table(classifications, raw_df[-k_inx, 3]))
+    masterAcc[j,i] = CM$overall[1]
+    masterSens[j,i] = CM$byClass[1]
+    masterSpec[j,i] = CM$byClass[2]
+  }
+  
+}
+
+MeanAcc = colMeans(masterAcc)
+plot(seq(1,numks,1),MeanAcc, type = "l", main = "Overall Accuracy", xlab = "Number of k(s)", ylab = "Mean Accuracy")
+which.max(MeanAcc)
+max(MeanAcc)
+
+MeanSens = colMeans(masterSens)
+plot(seq(1,numks,1),MeanSens, type = "l", main = "Overall Sensitivy", xlab = "Number of k(s)", ylab = "Mean Sensitivy")
+which.max(MeanSens)
+max(MeanSens)
+
+MeanSpec = colMeans(masterSpec)
+plot(seq(1,numks,1),MeanSpec, type = "l", main = "Overall Specificity", xlab = "Number of k(s)", ylab = "Mean Specificity")
+which.max(MeanSpec)
+max(MeanSpec)
+
+
+
+```
+
+From the graphs and data above, we can select the best number of neighbors for knn.
+
+***
+
+
+
+```{r}
+
+pd_mx <- data.matrix(pd_df)
+
+t_splt <- sample(seq(1:(dim(pd_df)[[1]])), (round(dim(pd_df)[[1]] * .7)))
+
+x_train_data <- pd_mx[t_splt,]
+
+x_train_labels <- sapply(raw_df[t_splt, 3], function(x) ifelse(x == "Yes", 1, 0))
+
+x_test_data <- pd_mx[-(t_splt),]
+
+x_test_labels <- sapply(raw_df[-(t_splt), 3], function(x) ifelse(x == "Yes", 1, 0))
+
+train_dmx <- xgb.DMatrix(data = x_train_data, label = x_train_labels)
+
+dtest_dmx <- xgb.DMatrix(data = x_test_data, label = x_test_labels)
+
+positive_cases <- (sum(x_train_labels == 1) + sum(x_train_labels == 1))
+
+negative_cases <- (sum(x_test_labels == 0) + sum(x_test_labels == 0))
+
+#~~~~~~~~~~~~ Normal XGBOOST
+
+xgb_model <- xgboost(data = train_dmx,          
+                       max.depth = 5, 
+                       nround = 200, 
+                       early_stopping_rounds = 10, 
+                       eval_metric = "auc",
+                       objective = "binary:logistic",
+                       print_every_n = 10,
+                       scale_pos_weight = negative_cases/positive_cases)
+
+
+pred <- predict(xgb_model, dtest_dmx)
+
+confusionMatrix(table(as.numeric(pred > 0.5), x_test_labels))
+
+
+err <- mean(as.numeric(pred > 0.5) != x_test_labels)
+print(paste("test-auc=", err))
+
+
+feature_importance <- xgb.importance(names(pd_mx), model = xgb_model)
+
+
+xgb.plot.importance(feature_importance)
+
+
+```
+
+The xgboost model above has evaluated what features contribute to employee attrition.
+
+From the feature importance we can see the top five factors leading to attrition according to this model are: Monthly Income, OverTime, Age, StockOptions, Percent Salary Hike and Job Satisfaction.
+
+```{r}
+
+
+ynFlip <-  factor(raw_df$Attrition,levels(raw_df$Attrition)[c(2, 1)])
+
+raw_df %>% ggplot(aes(Attrition, Age, fill= ynFlip)) + geom_boxplot()
+
+raw_df %>% ggplot(aes(Attrition, MonthlyIncome, fill= ynFlip)) + geom_boxplot()
+
+raw_df %>% ggplot(aes(OverTime,fill = ynFlip)) + geom_bar()
+
+raw_df %>% ggplot(aes(StockOptionLevel,fill = ynFlip))+geom_bar()
+
+
+```
+
+```{r, echo=FALSE, results='hide'}
+
+#~~~~~~~~~~~~~~~~ HyperTuning XGBoost~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+hp_df <- pd_df
+
+hp_splt <- sample(seq(1:(dim(pd_df)[[1]])), (round(dim(pd_df)[[1]] * .7)))
+
+hp_train_data_raw <- pd_df[hp_splt,]
+
+hp_train_labels <- sapply(raw_df[hp_splt, 3], function(x) ifelse(x == "Yes", 1, 0))
+
+hp_test_data_raw <- pd_df[hp_splt,]
+
+hp_test_labels <- sapply(raw_df[hp_splt, 3], function(x) ifelse(x == "Yes", 1, 0))
+
+hp_train_data <- as.data.frame(cbind(hp_train_data_raw, as.factor(hp_train_labels)))
+
+hp_test_data <- as.data.frame(cbind(hp_test_data_raw, as.factor(hp_test_labels)))
+
+names(hp_train_data)[[6]] <- c("JobRoleSalesRepresentative")
+
+names(hp_train_data)[[15]] <- c("JobRole_ResearchDirector")
+
+names(hp_train_data)[[17]] <- c("JobRole_ManufacturingDirector")
+
+names(hp_train_data)[[20]] <- c("JobRole_SalesExecutive")
+
+names(hp_train_data)[[22]] <- c("EducationField_HumanResources")
+
+names(hp_train_data)[[24]] <- c("Attrition")
+
+names(hp_test_data)[[6]] <- c("JobRoleSalesRepresentative")
+
+names(hp_test_data)[[15]] <- c("JobRole_ResearchDirector")
+
+names(hp_test_data)[[17]] <- c("JobRole_ManufacturingDirector")
+
+names(hp_test_data)[[20]] <- c("JobRole_SalesExecutive")
+
+names(hp_test_data)[[22]] <- c("EducationField_HumanResources")
+
+names(hp_test_data)[[24]] <- c("Attrition")
+
+```
+
+
+```{r, echo=FALSE, results='hide'}
+
+traintask <- makeClassifTask (data = hp_train_data, target = "Attrition")
+
+
+testtask <- makeClassifTask (data = hp_test_data, target = "Attrition")
+
+lrn <- makeLearner("classif.xgboost", predict.type = "response")
+
+lrn$par.vals <- list( objective="binary:logistic", 
+                      eval_metric="error", 
+                      nrounds=100L, 
+                      eta=0.1)
+
+
+params <- makeParamSet(makeDiscreteParam("booster",values = c("gbtree","gblinear")), 
+                       makeIntegerParam("max_depth",lower = 3L,upper = 10L), 
+                       makeNumericParam("min_child_weight",lower = 1L,upper = 10L), 
+                       makeNumericParam("subsample",lower = 0.5,upper = 1), 
+                       makeNumericParam("colsample_bytree",lower = 0.5,upper = 1))
+
+
+rdesc <- makeResampleDesc("CV",
+                           stratify = T,
+                           iters=10L)
+
+
+
+ctrl <- makeTuneControlRandom(maxit = 10L)
+
+
+mytune <- tuneParams(learner = lrn, 
+                     task = traintask, 
+                     resampling = rdesc, 
+                     measures = acc,
+                     par.set = params, 
+                     control = ctrl, 
+                     show.info = T)
+
+
+
+#set hyperparameters
+lrn_tune <- setHyperPars(lrn,par.vals = mytune$x)
+
+#train model
+xgmodel <- train(learner = lrn_tune,task = traintask)
+
+#predict model
+xgpred <- predict(xgmodel,testtask)
+
+# Tuned xgboost model performed the best by far in testing.
+
+```
+
+
+
+```{r, echo=FALSE}
+
+confusionMatrix(xgpred$data$response,xgpred$data$truth)
+
+```
+
+The above confusion matrix shows that the tuned XGboost model performed better than a knn.
+
+
+With the features that can lead to employee attrition analysed, the company can identify factors that can lead to attrition. With the level of talent that is exiting the company, it may been more prudent to recruit new talent rather than retain low level.
+
+***
+
+### Now that employee attrition has been evaluated, a linear model will be created to assist with employee pay scale. 
+
+The correlationMatrix utilized in previous code blocks was used to find features highly related to MonthlyIncome. Exploiting features that have a high correlation with this value, should make our predictions more accurate.
+
+```{r, echo=FALSE}
+
+pred_error_sq <- c(0)
+
+for(i in 1:dim(lm_df)[1]) {
+  
+  inc_train <- lm_df[-i,]
+  
+  fit <- lm(MonthlyIncome ~ JobLevel + TotalWorkingYears, data = inc_train)
+  
+  mi_pred <- predict(fit, data.frame(JobLevel = lm_df[i,8], TotalWorkingYears = lm_df[i,17])) 
+  
+  pred_error_sq <- pred_error_sq + (lm_df[i,10] - mi_pred)^2 
+}
+
+SSE = var(lm_df$MonthlyIncome) * (869)
+
+R_squared <- 1 - (pred_error_sq/SSE) 
+R_squared
+
+RMSE = sqrt(pred_error_sq/870)
+RMSE
+
+
+```
+
+***
+
+```{r}
+
+cm_sal_df <- read.csv("data/CaseStudy2CompSetNoSalary.csv")
+
+sal_pred <- predict(fit, data.frame(JobLevel = cm_sal_df[,16], TotalWorkingYears = cm_sal_df[,29]))
+
+submission_select <- data.frame(empID = cm_sal_df$ID, sal_pred = sal_pred)
+write.csv(submission_select, file = 'data/sal_pred.csv', row.names = F)
+
+```
+
+With this linear model, the company will now be able to generate a pay scale to stay competitive in the workforce.
