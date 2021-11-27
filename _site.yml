@@ -6,7 +6,3 @@ navbar:
       href: index.html
     - text: "About Me"
       href: about_me.html
-    - text: "Beer Case Study Project"
-      href: BeerAnalysis.html
-    - text: "Attrition Case Study Project"
-      href: RUPP_cs2_Attrition_1.html
