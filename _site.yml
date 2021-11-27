@@ -1,6 +1,6 @@
 name: "mcgrupp.github.io"
 navbar:
-  title: "fleethound called mcgrupp"
+  title: "Jason W. Rupp"
   left:
     - text: "Main"
       href: index.html
