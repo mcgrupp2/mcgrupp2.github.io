@@ -1,26 +1,25 @@
 ---
-title: "DDS6306_Website Project"
+title: "JR Data Scientist Code Samples"
 author: "Jason Rupp"
-date: "November 13, 2019"
-output: html_document
+output: 
+  html_document:
+    theme: spacelab
+    toc: true
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+### Data Driven Decisions
 
-# Thank you for visiting!!!
-## I hope you find this website to be entertaining, and maybe informative
-### Please use these nuggets of wisdom in your everyday life as you see fit:
-- Ride a bicycle frequently and certainly oftenly
-- What ever you do, take care of your shoes
-- Sometimes the bear will eat you
-- Gary Cole is the man
-- Computers are useful
+Thank you for visiting my site, my name is Jason Rupp and I am a Data Scientist living in the Pacific Northwest. I have compiled some code samples from my Master's studies at Southern Methodist University. 
 
+Please feel free to peruse the samples with the above navigation bar. These projects I completed during my Master's, they are in a report type format. The code samples are located at the end of most documents in the appendix section.
 
-## There will be some classwork presented on this website
-### Feel free to browse this site and check out my work
-### The navbar should explain it
-- The bio may not necessarily be representative of the site Admin
+I am currently doing research with the University of Washington. We are trying to use data to enhance the diagnostic ability of rapid diagnostic tests. I am associated with projects that are studying the use these models in the prediction of influenza and COVID-19, though we would like to apply these models to other infectious diseases.
+
+I 
+
+If you would like to see a further list of my qualifications, please visit my <a href="https://www.linkedin.com/in/jasonwilliamrupp/">LinkedIn Profile </a>
+

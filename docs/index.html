@@ -11,14 +11,13 @@
 
 <meta name="author" content="Jason Rupp" />
 
-<meta name="date" content="2019-11-13" />
 
-<title>DDS6306_Website Project</title>
+<title>JR Data Scientist Code Samples</title>
 
 <script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<link href="site_libs/bootstrap-3.3.5/css/spacelab.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
@@ -31,6 +30,9 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
@@ -220,6 +222,69 @@ $(document).ready(function () {
 
 
 
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
 
 </head>
 
@@ -227,6 +292,16 @@ $(document).ready(function () {
 
 
 <div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -261,44 +336,25 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">DDS6306_Website Project</h1>
+<h1 class="title toc-ignore">JR Data Scientist Code Samples</h1>
 <h4 class="author">Jason Rupp</h4>
-<h4 class="date">November 13, 2019</h4>
 
 </div>
 
 
-<div id="thank-you-for-visiting" class="section level1">
-<h1>Thank you for visiting!!!</h1>
-<div id="i-hope-you-find-this-website-to-be-entertaining-and-maybe-informative" class="section level2">
-<h2>I hope you find this website to be entertaining, and maybe informative</h2>
-<div id="please-use-these-nuggets-of-wisdom-in-your-everyday-life-as-you-see-fit" class="section level3">
-<h3>Please use these nuggets of wisdom in your everyday life as you see fit:</h3>
-<ul>
-<li>Ride a bicycle frequently and certainly oftenly</li>
-<li>What ever you do, take care of your shoes</li>
-<li>Sometimes the bear will eat you</li>
-<li>Gary Cole is the man</li>
-<li>Computers are useful</li>
-</ul>
-</div>
-</div>
-<div id="there-will-be-some-classwork-presented-on-this-website" class="section level2">
-<h2>There will be some classwork presented on this website</h2>
-<div id="feel-free-to-browse-this-site-and-check-out-my-work" class="section level3">
-<h3>Feel free to browse this site and check out my work</h3>
-</div>
-<div id="the-navbar-should-explain-it" class="section level3">
-<h3>The navbar should explain it</h3>
-<ul>
-<li>The bio may not necessarily be representative of the site Admin</li>
-</ul>
-</div>
-</div>
+<div id="data-driven-decisions" class="section level3">
+<h3>Data Driven Decisions</h3>
+<p>Thank you for visiting my site, my name is Jason Rupp and I am a Data Scientist living in the Pacific Northwest. I have compiled some code samples from my Master’s studies at Southern Methodist University.</p>
+<p>Please feel free to peruse the samples with the above navigation bar. These projects I completed during my Master’s, they are in a report type format. The code samples are located at the end of most documents in the appendix section.</p>
+<p>I am currently doing research with the University of Washington. We are trying to use data to enhance the diagnostic ability of rapid diagnostic tests. I am associated with projects that are studying the use these models in the prediction of influenza and COVID-19, though we would like to apply these models to other infectious diseases.</p>
+<p>I</p>
+<p>If you would like to see a further list of my qualifications, please visit my <a href="https://www.linkedin.com/in/jasonwilliamrupp/">LinkedIn Profile </a></p>
 </div>
 
 
 
+</div>
+</div>
 
 </div>
 
@@ -331,6 +387,35 @@ $(document).ready(function () {
 
 <!-- code folding -->
 
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>
