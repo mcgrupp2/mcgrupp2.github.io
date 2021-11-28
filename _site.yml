@@ -8,10 +8,6 @@ navbar:
     - text: "Machine Learning: Model Tuning"
       href: model_tuning.html
     - text: "Data Wrangling and Visualization"
-      href: datawrag.html
-    - text: "Extreme Gradient Boost Tuning"
-      href: xg.html
+      href: datawrag2.html
     - text: "Neural Network"
       href: tf.html
-    - text: "COVID-19 Forecasting"
-      href: covid.html

@@ -1,0 +1,1334 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Jason Rupp" />
+
+<meta name="date" content="2021-02-04" />
+
+<title>Case Study 4</title>
+
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Jason W. Rupp</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">About Me</a>
+</li>
+<li>
+  <a href="model_tuning.html">Machine Learning: Model Tuning</a>
+</li>
+<li>
+  <a href="datawrag2.html">Data Wrangling and Visualization</a>
+</li>
+<li>
+  <a href="tf.html">Neural Network</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Case Study 4</h1>
+<h3 class="subtitle"><div class="line-block">Web Scraping<br />
+DS7333<br />
+Jason Rupp</div></h3>
+<h4 class="author">Jason Rupp</h4>
+<h4 class="date">February 4, 2021</h4>
+
+</div>
+
+
+<style type="text/css">
+p.caption {
+  font-size: 0.8em;
+}
+
+table.caption {
+  font-size: 0.8em;
+}
+</style>
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>Web scraping can be a very powerful tool that can be used to gather data from the internet. One form of web scraping involves locating and extracting information embedded in HTML code. Several software packages have been developed to assist with web scraping, this case study will utilize two such packages that are included within the <code>tidyverse</code>, <code>xml2</code> and <code>rvest</code>. Using this technique can be a very valuable asset to a Data Scientist, as this case study will demonstrate, it can automate data collection across a number of web pages, decreasing the amount of time required to gather data for analysis.</p>
+<p>Though there are a few means by which web scraping can be accomplished, one such method involves parsing HTML, or Hyper Text Markup Language, text to find data of interest. Data on websites are typically contained within pre-defined HTML tags, a list can be found <a href = "https://www.w3schools.com/tags/default.asp"> here</a>. If there is data of interest on a website, the tag associated with the data can be located in the HTML text, and collected for analysis.</p>
+<p>Even though it can be very useful technique, there is a major pitfall associated with web scraping that can interfere with data acquisition. If the site undergoes maintenance, or if the site does a major over hall and makes several changes to the site, it is possible that the tools being used to extract data may not be effective on the changed site. In spite of this draw back, web scraping is a very effective means by which data can be acquired.</p>
+<p>The purpose of this Case Study is to utilize software to scrape data from the internet, and perform minor statistical analysis on the data acquired.</p>
+</div>
+<div id="background" class="section level1">
+<h1>Background</h1>
+<div id="case-study-purpose" class="section level2">
+<h2>Case Study Purpose</h2>
+<p>This Case Study is a slight modification of an exercise found in Chapter 2 of the book “Data Science in R: A Case Studies Approach to Computational Reasoning and Problem Solving” titled <em>Modeling Runners’ Times in the Cherry Blossom Race</em>. The Cherry Blossom Race is an annual race in Washington, DC that dates back to 1973. Run times for each race have been posted online at <a href="http://www.cballtimeresults.org/performances">this website</a>. This chapter in the text book provides tools and detailed explanation outlining the steps of data acquisition and cleaning, however this where the methods in this Case Study and the text book will diverge.</p>
+<p>The instructions provided in the text book were only useful prior until about January 22nd, 2021, as The Cherry Blossom changed the format of the website around this time. With the website in a completely new format, using the tools in the book will no longer be a viable means of data collection.</p>
+<p>The aim of this case study is to develop new tools to automate collection of race data from 1999-2012 with particular focus on the Mens division to perform statistical analysis on the data to answer questions of interest.</p>
+</div>
+<div id="questions-of-interest" class="section level2">
+<h2>Questions of Interest</h2>
+<p>There has been an apparent trend in the age of male runners entering the Cherry Blossom Race, male runners in 1999 were typically older than those which ran the race in 2012. This case study will scrape the mens race data from 1999-2012 to compare the age distribution of the runners across all 14 years of the races by using quantile-quantile plots, boxplots, density curves, and other methods to make comparisons. How have the distributions changed over the years and was it gradual?</p>
+</div>
+</div>
+<div id="methods" class="section level1">
+<h1>Methods</h1>
+<p>The accompanying code for the methods used can be found in the <a href="#functions"> Functions Section</a> of the Appendix.</p>
+<div id="web-scraping" class="section level2">
+<h2>Web Scraping</h2>
+<p>One benefit of the new format for the Cherry Blossom website is that subsequent years have the same format for every race. What makes the new format different is that the race data results are paginated and a different call has to be made for every race, year, and gender. Even though the results are spread across several pages, the new format is far better suited to collect any range of data, as the race data for every year since the inception of the race is in the same format. The data from the site was retrieved using the following series of the functions.</p>
+<p>This first function <code>return_dataTable()</code> (<a href="#function621">Function 6.2.1</a>) retrieves the table containing the data on each page, which is identified by the &lt;table&gt; html tag and will return the data in a dataframe.</p>
+<p>The next function <code>collect_data()</code> (<a href="#function622">Function 6.2.2</a>) gathers all the data for a single race year from the paginated tables for an individual year-gender combo. The URL strings are built based on the year, gender, page number and first letter of gender. This url could also be modified to get results from the 5 mile Cherry Blossom Race, if desired. The first page for the year is fetched to create an initial dataframe, and to find data about that race year. Each year has a different number of pages which will be unknown without looking at each year, however what is constant is there are 20 runners displayed per page. The total number of runners is found from the <code>PiS/TiS</code> column on the first page for the year. This will be used to figure out how many pages to query then subsequent pages are queried one at a time.</p>
+<p>Next is the <code>get_all_data()</code> function (<a href="#function623">Function 6.2.3</a>) that takes the list of years for one gender and retrieves the data over the year range using the previous <code>collect_data()</code> function. It then stores this data as a csv for later processing as collecting multiple years can be time intensive.</p>
+<p>Finally the <code>scrape_data()</code> function (<a href="#function623">Function 6.2.3</a>) puts everything together to build the list of years and scrape the data for both genders. Currently, the function will retrieve the list of years outlined in this Case Study (1999-2012), and for <em>both</em> genders, but it could be modified. This function would also allow the web scraping to be called as a script file.</p>
+</div>
+<div id="data-cleanup" class="section level2">
+<h2>Data Cleanup</h2>
+<p>Once all the data has been scraped, we proceed with our analysis to investigate the change in age distribution of men entering the race over time. We start by loading the csv for the Men’s data scraped with functions from above and adding column names (<a href="#function6251">Data Cleaning: Read Data</a>). The initial dataset contains 69,996 observations, below in Table 3.2.1 is an example of the raw dataframe.</p>
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:100%; overflow-x: scroll; width:100%; ">
+<table class=" lightable-material lightable-striped lightable-hover" style="font-family: &quot;Source Sans Pro&quot;, helvetica, sans-serif; margin-left: auto; margin-right: auto;">
+<caption>
+Table 3.2.1: Example of Mens Data File
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+race
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+name
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+age
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+time
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+pace
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+placeInSex
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+division
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+placeInDivision
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+hometown
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+1999 10M
+</td>
+<td style="text-align:left;">
+Worku Bikila (M)
+</td>
+<td style="text-align:left;">
+28
+</td>
+<td style="text-align:left;">
+00:46:59
+</td>
+<td style="text-align:left;">
+04:42:00
+</td>
+<td style="text-align:left;">
+1/3190
+</td>
+<td style="text-align:left;">
+M2529
+</td>
+<td style="text-align:left;">
+1/394
+</td>
+<td style="text-align:left;">
+Ethiopia
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999 10M
+</td>
+<td style="text-align:left;">
+Lazarus Nyakeraka (M)
+</td>
+<td style="text-align:left;">
+24
+</td>
+<td style="text-align:left;">
+00:47:01
+</td>
+<td style="text-align:left;">
+04:42:00
+</td>
+<td style="text-align:left;">
+2/3190
+</td>
+<td style="text-align:left;">
+M2024
+</td>
+<td style="text-align:left;">
+1/85
+</td>
+<td style="text-align:left;">
+Kenya
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999 10M
+</td>
+<td style="text-align:left;">
+James Kariuki (M)
+</td>
+<td style="text-align:left;">
+27
+</td>
+<td style="text-align:left;">
+00:47:03
+</td>
+<td style="text-align:left;">
+04:42:00
+</td>
+<td style="text-align:left;">
+3/3190
+</td>
+<td style="text-align:left;">
+M2529
+</td>
+<td style="text-align:left;">
+2/394
+</td>
+<td style="text-align:left;">
+Kenya
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999 10M
+</td>
+<td style="text-align:left;">
+William Kiptum (M)
+</td>
+<td style="text-align:left;">
+28
+</td>
+<td style="text-align:left;">
+00:47:07
+</td>
+<td style="text-align:left;">
+04:43:00
+</td>
+<td style="text-align:left;">
+4/3190
+</td>
+<td style="text-align:left;">
+M2529
+</td>
+<td style="text-align:left;">
+3/394
+</td>
+<td style="text-align:left;">
+Kenya
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999 10M
+</td>
+<td style="text-align:left;">
+Joseph Kimani (M)
+</td>
+<td style="text-align:left;">
+26
+</td>
+<td style="text-align:left;">
+00:47:31
+</td>
+<td style="text-align:left;">
+04:45:00
+</td>
+<td style="text-align:left;">
+5/3190
+</td>
+<td style="text-align:left;">
+M2529
+</td>
+<td style="text-align:left;">
+4/394
+</td>
+<td style="text-align:left;">
+Kenya
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1999 10M
+</td>
+<td style="text-align:left;">
+Josphat Machuka (M)
+</td>
+<td style="text-align:left;">
+25
+</td>
+<td style="text-align:left;">
+00:47:33
+</td>
+<td style="text-align:left;">
+04:45:00
+</td>
+<td style="text-align:left;">
+6/3190
+</td>
+<td style="text-align:left;">
+M2529
+</td>
+<td style="text-align:left;">
+5/394
+</td>
+<td style="text-align:left;">
+Kenya
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The raw data still requires some processing to be useful for our analysis (<a href="#function6252">Data Cleaning: Formatting</a>). Some of the column formats will be more useful as different types. One thing which was noted during data collection was that the <code>age</code> feature had to be collected as a character type. This was due to some missing data which was denoted as “NR”. These rows need to be dealt with prior to analysis. One solution is to remove rows with age values of “NR”, however there is a risk of data loss. Luckily in this instance eliminating the rows only results in the loss of 28 rows. For 14 years of race data this is a minimal amount which is good for multiple reasons. First, no methods of imputation will be necessary, and eliminating the rows is very easy. Secondly, the data that we are interested in analyzing is the age of the racers, so having so little missing should yield an accurate portrayal. Once the “NR” rows are eliminated the age and year are cast as integers and runner division is converted to factor.</p>
+</div>
+<div id="summary-statistics" class="section level2">
+<h2>Summary Statistics</h2>
+<p>With the variables of interest extracted, we can create summary dataframes to investigate the questions of interest (<a href="#function6261">Summary Dataframes</a>). The dataframe <code>df_age_stats</code> was created was to show the summary statistics for the ages of the runners each year.</p>
+<p>The second dataframe <code>df_div_stats</code> groups the runners into their respective divisions by year and enumerates the runners in each division. We also add 0 runners for two divisions with missing data and convert the division feature to a factor to make further analysis easier.</p>
+<p>The final dataframe <code>yearDifferenceByDiv_wide/long</code> was created to examine the annual growth of each division. This was created by making individual dataframes for each division with a loop, then taking the first difference with the <code>artrans.wge()</code> function to calculate annual growth.</p>
+</div>
+<div id="age-analysis" class="section level2">
+<h2>Age Analysis</h2>
+<p>With the data processing complete, the questions of interest can be answered. The Men’s data was analyzed using a combination of plots and summary statistics from the dataframes created in the previous section, and results will be discussed in the subsequent section.</p>
+<p>Additionally, the mean ages of men will be examined for change points (<a href="#function627">Changpoints</a>) with the <code>changepoint</code> package. A change point can be described as a point in time where the mean of the data changes for some reason. Change points will be located for with two different methods, the “AMOC” or At Most One Change method and Binary segmentation. The first method will search the data for one change in mean, and the second will continuously divide the data in half and compare the mean of each until a difference is found.</p>
+</div>
+</div>
+<div id="results" class="section level1">
+<h1>Results</h1>
+<div id="summary-statistics-for-mens-data" class="section level2">
+<h2>Summary Statistics for Men’s Data</h2>
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:100%; overflow-x: scroll; width:100%; ">
+<table class=" lightable-material lightable-striped lightable-hover" style="font-family: &quot;Source Sans Pro&quot;, helvetica, sans-serif; margin-left: auto; margin-right: auto;">
+<caption>
+Table 4.1.1: Age Statistics, Mens Data 1999-2012
+</caption>
+<thead>
+<tr>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+Race Year
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+Mean Age
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+Std Dev.
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+Oldest
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+Youngest
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+Total Runners
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+1999
+</td>
+<td style="text-align:right;color: rgba(251, 159, 58, 1) !important;">
+40.33
+</td>
+<td style="text-align:right;">
+10.27
+</td>
+<td style="text-align:right;">
+80
+</td>
+<td style="text-align:right;">
+11
+</td>
+<td style="text-align:right;color: rgba(34, 6, 144, 1) !important;">
+3188
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2000
+</td>
+<td style="text-align:right;color: rgba(252, 166, 54, 1) !important;">
+40.41
+</td>
+<td style="text-align:right;">
+10.51
+</td>
+<td style="text-align:right;">
+79
+</td>
+<td style="text-align:right;">
+11
+</td>
+<td style="text-align:right;color: rgba(13, 8, 135, 1) !important;">
+3016
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2001
+</td>
+<td style="text-align:right;color: rgba(250, 157, 59, 1) !important;">
+40.30
+</td>
+<td style="text-align:right;">
+10.59
+</td>
+<td style="text-align:right;">
+80
+</td>
+<td style="text-align:right;">
+12
+</td>
+<td style="text-align:right;color: rgba(67, 3, 158, 1) !important;">
+3555
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2002
+</td>
+<td style="text-align:right;color: rgba(250, 157, 59, 1) !important;">
+40.30
+</td>
+<td style="text-align:right;">
+10.69
+</td>
+<td style="text-align:right;">
+79
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;color: rgba(80, 2, 162, 1) !important;">
+3720
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2003
+</td>
+<td style="text-align:right;color: rgba(252, 162, 56, 1) !important;">
+40.37
+</td>
+<td style="text-align:right;">
+10.75
+</td>
+<td style="text-align:right;">
+80
+</td>
+<td style="text-align:right;">
+11
+</td>
+<td style="text-align:right;color: rgba(96, 1, 166, 1) !important;">
+3921
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2004
+</td>
+<td style="text-align:right;color: rgba(213, 84, 110, 1) !important;">
+39.32
+</td>
+<td style="text-align:right;">
+10.95
+</td>
+<td style="text-align:right;">
+81
+</td>
+<td style="text-align:right;">
+13
+</td>
+<td style="text-align:right;color: rgba(113, 0, 168, 1) !important;">
+4141
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2005
+</td>
+<td style="text-align:right;color: rgba(226, 101, 97, 1) !important;">
+39.55
+</td>
+<td style="text-align:right;">
+11.05
+</td>
+<td style="text-align:right;">
+82
+</td>
+<td style="text-align:right;">
+12
+</td>
+<td style="text-align:right;color: rgba(125, 3, 168, 1) !important;">
+4314
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2006
+</td>
+<td style="text-align:right;color: rgba(190, 56, 133, 1) !important;">
+38.90
+</td>
+<td style="text-align:right;">
+10.95
+</td>
+<td style="text-align:right;">
+82
+</td>
+<td style="text-align:right;">
+13
+</td>
+<td style="text-align:right;color: rgba(183, 49, 138, 1) !important;">
+5233
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2007
+</td>
+<td style="text-align:right;color: rgba(161, 27, 155, 1) !important;">
+38.47
+</td>
+<td style="text-align:right;">
+11.13
+</td>
+<td style="text-align:right;">
+80
+</td>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:right;color: rgba(182, 48, 139, 1) !important;">
+5215
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2008
+</td>
+<td style="text-align:right;color: rgba(102, 0, 167, 1) !important;">
+37.78
+</td>
+<td style="text-align:right;">
+10.90
+</td>
+<td style="text-align:right;">
+84
+</td>
+<td style="text-align:right;">
+12
+</td>
+<td style="text-align:right;color: rgba(215, 86, 108, 1) !important;">
+5904
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2009
+</td>
+<td style="text-align:right;color: rgba(62, 4, 156, 1) !important;">
+37.37
+</td>
+<td style="text-align:right;">
+10.80
+</td>
+<td style="text-align:right;">
+85
+</td>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:right;color: rgba(241, 130, 76, 1) !important;">
+6652
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2010
+</td>
+<td style="text-align:right;color: rgba(13, 8, 135, 1) !important;">
+36.98
+</td>
+<td style="text-align:right;">
+10.77
+</td>
+<td style="text-align:right;">
+86
+</td>
+<td style="text-align:right;">
+11
+</td>
+<td style="text-align:right;color: rgba(247, 146, 66, 1) !important;">
+6906
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2011
+</td>
+<td style="text-align:right;color: rgba(78, 2, 162, 1) !important;">
+37.53
+</td>
+<td style="text-align:right;">
+10.86
+</td>
+<td style="text-align:right;">
+83
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;color: rgba(249, 154, 62, 1) !important;">
+7009
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2012
+</td>
+<td style="text-align:right;color: rgba(99, 0, 167, 1) !important;">
+37.75
+</td>
+<td style="text-align:right;">
+10.87
+</td>
+<td style="text-align:right;">
+89
+</td>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:right;color: rgba(252, 166, 54, 1) !important;">
+7194
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Table 4.1.1 above show the summary statistics for the race years of interest for the Men runners. There are several things of note. The question of interest is in regard to the mean age of the male competitors and this table shows how the mean age has changed. The mean age of the male competitors in 1999 is around 40 years old. Fourteen race years later in 2012 the mean is around 37 years old. There is clearly a shift to a younger population of racers though the standard deviation seems to be remaining fairly constant.</p>
+<p>Another thing to note is the increase in the number of racers. It seems like the shift toward the younger population is accompanied by an increase in the number of runners, this will be expanded upon later in the results section.</p>
+<p>The last thing that is quite interesting is the youngest racer to ever to have supposed to have raced. It seems in 2002 that there was a competitor that was 4 years old for the 10 mile race. This seems rather suspect, though further investigation of this data point did show the runner to be in the M0119 division which would support that this data point is true. What is somewhat unbelievable is that this 4 year old supposedly ran 10 miles in 01:28:56 and got 5th place in his division!!! Doesn’t seem likely though possible.</p>
+</div>
+<div id="qq-plots" class="section level2 tabset tabset-pills tabset-fade">
+<h2 class="tabset tabset-pills tabset-fade">QQ Plots</h2>
+<p>Figure 4.2.1 below, displaying all of the QQ-plots which sampled the ages for each year of the race. This plot does little to answer the question of interest regarding ages. It isn’t very clear how the distribution of ages progresses over the time frame of interest. What is consistent is that all of the graphs have a very similar shape, the first quarter to half of all of the curves have a very unique shape. This shape indicates that there could be a right skew in the distribution of ages.</p>
+<p>Figure 4.2.2 shows the QQ-plots in an animated manor. This overlaying of the graphs makes it a little easier to see the movement in the distribution as the years progress. It is a little easier to see the movement in the distribution that around 2005, or 2006 there seems to be a marked movement of the slope in the positive direction. This indicates that there may be a movement toward a more right skewed distribution.</p>
+<p>Both depictions of the QQ-plots seem to indicate that the data is having a tendency to lead to a more right skewed distribution of the ages of men. This type of behavior would lead to a decrease in the mean age of a racer in each year.</p>
+<div id="facet-wrapped" class="section level3">
+<h3>Facet Wrapped</h3>
+<div class="figure">
+<img src="datawrag2_files/figure-html/unnamed-chunk-8-1.png" alt="**Figure 4.2.1** QQ-plots for mens ages 1999-2012 (CLICK ON PLOT TO ENLARGE)" width="864" />
+<p class="caption">
+<strong>Figure 4.2.1</strong> QQ-plots for mens ages 1999-2012 (CLICK ON PLOT TO ENLARGE)
+</p>
+</div>
+</div>
+<div id="animated" class="section level3">
+<h3>Animated</h3>
+<div class="figure">
+<img src="datawrag2_files/figure-html/unnamed-chunk-9-1.gif" alt="" />
+<p class="caption"><strong>Figure 4.2.2</strong> Animated QQ-plots for mens ages 1999-2012 (CLICK ON PLOT TO ENLARGE)</p>
+</div>
+</div>
+</div>
+<div id="boxplots" class="section level2 tabset tabset-pills tabset-fade">
+<h2 class="tabset tabset-pills tabset-fade">Boxplots</h2>
+<p>In both Figure 4.3.1 and Figure 4.3.2 below, show boxplots displaying the age of the men entrants for every year. It is very easy to see the shifting mean trend toward younger runners. There is clearly a difference in the mean age between 1999 and 2012, and these plots really display that the shift was gradual from about 40 to 37.</p>
+<p>These plots are very useful for showing the yearly movement in the mean age of mens runners, though they fall a little short with truly expressing the yearly differences of the distribution of ages.</p>
+<div id="all-boxplots" class="section level3">
+<h3>All Boxplots</h3>
+<div class="figure">
+<img src="datawrag2_files/figure-html/unnamed-chunk-10-1.png" alt="**Figure 4.3.1** Boxplots of mens ages 1999-2012 (CLICK ON PLOT TO ENLARGE)" width="864" />
+<p class="caption">
+<strong>Figure 4.3.1</strong> Boxplots of mens ages 1999-2012 (CLICK ON PLOT TO ENLARGE)
+</p>
+</div>
+</div>
+<div id="animated-1" class="section level3">
+<h3>Animated</h3>
+<div class="figure">
+<img src="datawrag2_files/figure-html/unnamed-chunk-11-1.gif" alt="" />
+<p class="caption"><strong>Figure 4.3.2</strong> Animated Boxplot of mens ages 1999-2012 (CLICK ON PLOT TO ENLARGE)</p>
+</div>
+</div>
+</div>
+<div id="density-curves" class="section level2 tabset tabset-pills tabset-fade">
+<h2 class="tabset tabset-pills tabset-fade">Density Curves</h2>
+<p>Figure 4.4.1 and Figure 4.4.2 below, also show the movement in the ages toward a right skewed distribution very well. Figure 4.4.1 with overlaid density curves, the most recent 4 or 5 races show a completely different shape. The majority of racers enrolling in the later years of this range are younger. This is consistent with the movement shown in the QQ-plots and Boxplots above.</p>
+<p>The animated Figure 4.4.2 really highlights the shift in the distribution of the racer age is gradual. The curves really start to spike toward the end.</p>
+<div id="overlaid" class="section level3">
+<h3>Overlaid</h3>
+<div class="figure">
+<img src="datawrag2_files/figure-html/unnamed-chunk-12-1.png" alt="**Figure 4.4.1** Overlaid Density Curves, mens ages 1999-2012 (CLICK ON PLOT TO ENLARGE)" width="864" />
+<p class="caption">
+<strong>Figure 4.4.1</strong> Overlaid Density Curves, mens ages 1999-2012 (CLICK ON PLOT TO ENLARGE)
+</p>
+</div>
+</div>
+<div id="animated-2" class="section level3">
+<h3>Animated</h3>
+<div class="figure">
+<img src="datawrag2_files/figure-html/unnamed-chunk-13-1.gif" alt="" />
+<p class="caption"><strong>Figure 4.4.2</strong> Animated Distributions of mens ages, 1999-2012 (CLICK ON PLOT TO ENLARGE)</p>
+</div>
+</div>
+</div>
+<div id="histograms" class="section level2 tabset tabset-pills tabset-fade">
+<h2 class="tabset tabset-pills tabset-fade">Histograms</h2>
+<p>Figure 4.5.1 and Figure 4.5.2 below, naturally highlight a similar theme as the density curves of a definitive shift in the age of a majority of the entrants. Figure 4.5.1 shows that in the early years of this range from 1999-2005, there isn’t a big change year over year. Each of these curves have a similar shape with a little, but noticeable growth in the overall total number of annual runners.</p>
+<p>Around 2006 there is more noticeable annual growth, particularly with the number of younger racers. This trend continues with for the remainder of years. These figures are very telling about how the distribution is changing. It seems like there are just <em>more</em> younger men entering the races as this range of years progress. This increase in younger runners is quite noticeable, as this increase is certainly the reason for the shift in the mean from 1999-2012.</p>
+<p>It appears as though there is annual growth for <strong>all</strong> age groups, however growth in the younger age groups are more apparent. The next section will expand upon this notion and further examine the yearly growth of the divisions.</p>
+<div id="facet-wrapped-1" class="section level3">
+<h3>Facet Wrapped</h3>
+<div class="figure">
+<img src="datawrag2_files/figure-html/unnamed-chunk-14-1.png" alt="**Figure 4.5.1** Histograms for men entrants, 1999-2012 (CLICK ON PLOT TO ENLARGE)" width="864" />
+<p class="caption">
+<strong>Figure 4.5.1</strong> Histograms for men entrants, 1999-2012 (CLICK ON PLOT TO ENLARGE)
+</p>
+</div>
+</div>
+<div id="animated-3" class="section level3">
+<h3>Animated</h3>
+<div class="figure">
+<img src="datawrag2_files/figure-html/unnamed-chunk-15-1.gif" alt="" />
+<p class="caption"><strong>Figure 4.5.2</strong> Animated Histograms for men entrants, 1999-2012 (CLICK ON PLOT TO ENLARGE)</p>
+</div>
+</div>
+</div>
+<div id="annual-growth-of-race" class="section level2 tabset tabset-pills tabset-fade">
+<h2 class="tabset tabset-pills tabset-fade">Annual Growth of Race</h2>
+<p>The proceeding plots are being displayed to really highlight the annual growth of the race over this range of years in the Mens division. Figure 4.6.1 shows the raw number of competitors, some aspects provide reinforcement what was seen in the histograms. There seems to be a large jump in runners from 2005 to 2006.</p>
+<p>Figure 4.6.2 below shows difference in the number of annual competitor from year to year. This was found by taking the first difference with the <code>artrans.wge()</code> function. The increase in number of runners between the years 2005 and 2006 represent the largest increase between any year with large gains in 2008 and 2009 as well.</p>
+<p>Figure 4.6.3 shows the increase in competitors at the division level. This really breaks down where the influx of new runners are registering. As expected, the biggest annual increases for the race are coming in the M2529 and M3035, especially in the years identified above as major growth years. These runners are driving the mean age of the male runner down.</p>
+<div id="total-number" class="section level3">
+<h3>Total Number</h3>
+<div class="figure">
+<img src="datawrag2_files/figure-html/unnamed-chunk-16-1.png" alt="**Figure 4.6.1** Number of men runners, 1999-2012  (CLICK ON PLOT TO ENLARGE)" width="864" />
+<p class="caption">
+<strong>Figure 4.6.1</strong> Number of men runners, 1999-2012 (CLICK ON PLOT TO ENLARGE)
+</p>
+</div>
+</div>
+<div id="yearly-change" class="section level3">
+<h3>Yearly Change</h3>
+<div class="figure">
+<img src="datawrag2_files/figure-html/unnamed-chunk-17-1.png" alt="**Figure 4.6.2** Yearly difference in total enrollment of men runners, 1999-2012  (CLICK ON PLOT TO ENLARGE)" width="864" />
+<p class="caption">
+<strong>Figure 4.6.2</strong> Yearly difference in total enrollment of men runners, 1999-2012 (CLICK ON PLOT TO ENLARGE)
+</p>
+</div>
+</div>
+<div id="yearly-change-by-division" class="section level3">
+<h3>Yearly Change by Division</h3>
+<div class="figure">
+<img src="datawrag2_files/figure-html/unnamed-chunk-18-1.png" alt="**Figure 4.6.3** Yearly difference in divisional enrollment of men runners, 1999-2012  (CLICK ON PLOT TO ENLARGE)" width="864" />
+<p class="caption">
+<strong>Figure 4.6.3</strong> Yearly difference in divisional enrollment of men runners, 1999-2012 (CLICK ON PLOT TO ENLARGE)
+</p>
+</div>
+</div>
+</div>
+<div id="changepoint-analysis" class="section level2">
+<h2>Changepoint Analysis</h2>
+<p>Figure 5.1 below shows the mean ages of the runners over the course of the years of interest. The last statistical method employed on this dataset was examining the data for possible change points in the mean of the data. The <code>changepoint</code> package was used with two seperate methods of analysis, the “AMOC” or At Most One Change method and Binary segmentation.</p>
+<div class="figure">
+<img src="datawrag2_files/figure-html/unnamed-chunk-20-1.png" alt="**Figure 5.1** Annual Mean in male runners, 1999-2012  (CLICK ON PLOT TO ENLARGE)" width="864" />
+<p class="caption">
+<strong>Figure 5.1</strong> Annual Mean in male runners, 1999-2012 (CLICK ON PLOT TO ENLARGE)
+</p>
+</div>
+<p>Both methods of analysis yielded the same change in mean. Each identified 2006 as the year where the mean in age shifted. This really ties together the trends seen with the plots above, to add some evidence about the data above. The increase in young runners seen between the 2005-2006 had an effect on the mean, which was detected with the <code>changepoint</code> package functions. One cavet is that both function were only to locate 1 changepoint. The binary segmentation method <em>could</em> locate more change points, but if the restrictions are too relaxed, it will identify every change in the data, which isn’t useful.</p>
+</div>
+<div id="summary" class="section level2">
+<h2>Summary</h2>
+<p>There is a very evident shift in the mean ages over this time span, and the shift appears to be gradual. The distribution of the age of men competitors over the course of these years tends to shift more to the right. This shift to a right skew is cause by a large increase in men into the younger divisions and this leads to the mean age being driven down. Changepoint analysis of the time series found there to be a change in the mean age of the competitors to be in 2006, which is the midpoint of the data. Because the midpoint was identified as the change, this would seem to provide evidence that this change was gradual.</p>
+<p>What shouldn’t go unnoticed however is that it is a though mean age is shifting younger, this isn’t due to older runners losing interest and not competing in the race. The enrollment for the older runners remains very consistent throughout the entirity of the data set. The cause of the mean shift is due to the large influx of young runners, the reasons for which could be many.</p>
+</div>
+</div>
+<div id="conclusion" class="section level1">
+<h1>Conclusion</h1>
+<p>This was another very excellent exercise. The fact that the website had changed made it slightly more of a challenge, but the new website is actually much easier to scrape. It is improved in that each year is in a consistent format. In the asyncronous videos and textbook, there was far more involved with cleaning and formatting the data between the different years. Having an unpredictable annual format is very challenging to automating the scraping process, however this new format seems to alleviated this issue. A draw back is that the process takes longer. Results were only 20 to a page, so roughly 3500 web pages had to be hit to gather <em>just</em> the mens data for this time span, with the original format this number was far less.</p>
+<p>Even still with the increased data acquisition time, it was balanced out a bit with less time required for cleaning data. This exercise was a great tool for data collection. Hopefully it is understandable that this case study included both web scraping and analysis. It was quite anticlimactic to invest work in scraping so much data and then <em>not</em> do any type of analysis. Even seeing how this race has changed over time was a very interesting exercise.</p>
+<p>Analysis of this data lead to further questions which could be answered if time had permitted additional studies. One topic of interest was to analyze the <code>hometown</code> feature in greater depth. It would be interesting to investigate where the racers are from? Is the annual growth of the race from runners in the US, or has this race attracted the attention of international runners? A function (<a href="#function628">Further Studies</a>) was created to parse the <code>hometown</code> feature to try to extract this information, however some of the records had difficult formats to create an automated answer. Lastly, naturally the question of the mean age of the women competitors experience a similar change in mean over the same time span? How did this change in mean age effect the mean time of the runners? These are a few further studies which could be conducted on this dataset, along with a host of others.</p>
+<p>This was also a great exercise because it showed the duality of web scraping. It is a fantastically powerful way to gather openly available data, but seemingly overnight it can be rendered useless. This case study showed that in the world of data science, one needs to be very flexible and adaptable to different situations, because technology is constantly changing and evolving.</p>
+</div>
+<div id="appendix" class="section level1">
+<h1>Appendix</h1>
+<div id="sources" class="section level2">
+<h2>Sources</h2>
+<p><a href="https://www.w3schools.com/tags/default.asp"><em>w3schools HTML Tags</em>: https://www.w3schools.com/tags/default.asp</a></p>
+<p><strong>Nolan, Deborah; Lang, Duncan Temple.</strong>; <em>Data Science in R: A Case Studies Approach to Computational Reasoning and Problem Solving</em>; Chapter 2 pgs 45-103.</p>
+<p><a href="https://www.cherryblossom.org/">Cherry Blossom Race</a></p>
+<p><a href="http://www.cballtimeresults.org/performances">Cherry Blossom Race Database</a></p>
+<p><a href="https://www.jstatsoft.org/article/view/v058i03">changepoint package</a></p>
+<p><a id="functions"></a></p>
+</div>
+<div id="functions" class="section level2">
+<h2>Functions</h2>
+<p><a id="function621"></a></p>
+<div id="fetch-datatable" class="section level3">
+<h3>Fetch Datatable</h3>
+<pre class="r"><code>return_dataTable &lt;- function(url)
+{
+  # Fetch the page passed as url, expects cherry blossom database site
+  # example: http://www.cballtimeresults.org/performances?division=Overall+Women&amp;page=1&amp;section=10M&amp;sex=W&amp;utf8=%E2%9C%93&amp;year=1999
+  # Page 1 of Womens 10 Mile from 1999
+  page &lt;- xml2::read_html(url)
+  
+  # create dataframe with results 
+  # data needed is in only &lt;table&gt;&lt;/table&gt; on page, makes it easy
+  dataTable &lt;- page %&gt;% # take page
+    rvest::html_node(&quot;table&quot;) %&gt;% # find table
+    rvest::html_table() # convert table to dataframe
+  
+  return(dataTable)
+}</code></pre>
+<p>The <code>return_dataTable()</code> function puts the data that is in the HTML table on the cherry blossom run database website into a dataframe.</p>
+<p><a id="function622"></a></p>
+</div>
+<div id="collect-annual-data" class="section level3">
+<h3>Collect Annual Data</h3>
+<pre class="r"><code>collect_data &lt;- function(year, gender)
+{
+  # Fetch data for first page of desired gender/year combo, needed to create dataframe to add subsequent pages
+  # Column header names created issues with rbind(), got colnames from the site on first page as seed for loop
+  # Additionally, this will find out how many pages of results to fetch from the &quot;PiS/TiS&quot; column returned
+  url_first &lt;- paste(&quot;http://www.cballtimeresults.org/performances?division=Overall+&quot;,
+                     gender,
+                     &quot;&amp;page=&quot;,
+                     1,
+                     &quot;&amp;section=10M&amp;sex=&quot;,
+                     substring(gender,1,1),
+                     &quot;&amp;utf8=%E2%9C%93&amp;year=&quot;,
+                     year,
+                     sep = &quot;&quot;)  
+  
+  # Prints the url of first page to show progress
+  print(url_first) 
+  
+  # Seed dataframe for upcoming loop
+  data1 &lt;- return_dataTable(url_first) 
+  
+  # This column shows Place in Sex/Total in Sex
+  n = data1$`PiS/TiS`[1] 
+  
+  # Split 1st value on / select second element, total runners/gender
+  n = as.numeric(strsplit(n,&quot;/&quot;)[[1]][2]) 
+  
+  # Pages display 20 results so this finds the n for pages
+  n = trunc(n/20) + 1 
+  
+  # iterate through pages for the year, adding to seed dataframe per page
+  i = 2
+  
+  for (i in 2:n) {
+    url_loop &lt;- paste(&quot;http://www.cballtimeresults.org/performances?division=Overall+&quot;,
+                      gender,
+                      &quot;&amp;page=&quot;,
+                      i,
+                      &quot;&amp;section=10M&amp;sex=&quot;,
+                      substring(gender,1,1),
+                      &quot;&amp;utf8=%E2%9C%93&amp;year=&quot;,
+                      year,
+                      sep = &quot;&quot;)  
+    data2 &lt;- return_dataTable(url_loop)
+    print(paste(gender, &quot; - &quot;, i, &quot; - &quot;, year))
+    data1 &lt;- bind_rows(mutate_all(data1, as.character), mutate_all(data2, as.character))
+  }
+    # return entire year df
+  return(data1)
+}</code></pre>
+<p>The <code>collect_data()</code> function will scrape data for a year of data for one gender.</p>
+<p><a id="function623"></a></p>
+</div>
+<div id="collect-mutli-year-data" class="section level3">
+<h3>Collect Mutli-Year Data</h3>
+<pre class="r"><code>get_all_data = function(years, gender)
+{
+  # seed dataframe for loop due to column name issue
+  # fetches first year data
+  df_all &lt;- collect_data(years[1], gender)
+  
+  # iterate through the years of single gender passed
+  for(i in seq(2, length(years)))
+    {
+    # add to year of data to total dataframe
+    df_all &lt;- bind_rows(
+      mutate_all(df_all, as.character), 
+      mutate_all(collect_data(years[i],gender), as.character)
+      )
+  }
+  
+  # write results to csv with file name &quot;allData[gender].csv&quot; for later analysis
+  write_csv(df_all, paste(&quot;data/allData&quot;, gender,&quot;.csv&quot;,sep = &quot;&quot;))
+  return(df_all)
+}</code></pre>
+<p>The above function will be passed a list of desired years (1973-present) to retrieve data for a single gender.</p>
+<p><a id="function624"></a></p>
+</div>
+<div id="scrape-all-data" class="section level3">
+<h3>Scrape All Data</h3>
+<pre class="r"><code>scrape_data = function()
+  {
+  # desired years
+  years &lt;- seq(1999,2012,1) 
+  # Both genders, need to be in this format will be part of url
+  genders &lt;- c(&quot;Men&quot;, &quot;Women&quot;)
+  for (i in 1:length(genders)) {
+    # update print
+    print(paste(genders[i], &quot; - Starting&quot;))
+    
+    # collect all data for both genders
+    get_all_data(years, genders[i])
+    
+    #update print
+    print(paste(genders[i], &quot; - COMPLETE!!!&quot;))
+  }
+  #update print
+  print(&quot;DATA SCRAPE COMPLETE!!!&quot;)
+}</code></pre>
+<p>The <code>scrape_data</code> function will scrape all the data for men and women for the range of years in this case study.</p>
+</div>
+<div id="data-cleaning-steps" class="section level3">
+<h3>Data Cleaning Steps</h3>
+<p><a id="function6251"></a></p>
+<div id="read-data" class="section level4">
+<h4>Read Data</h4>
+<pre class="r"><code># column names for data from site
+col_names &lt;- c(&quot;race&quot;, 
+               &quot;name&quot;, 
+               &quot;age&quot;, 
+               &quot;time&quot;, 
+               &quot;pace&quot;, 
+               &quot;placeInSex&quot;, 
+               &quot;division&quot;, 
+               &quot;placeInDivision&quot;, 
+               &quot;hometown&quot;)
+
+# read csv of compiled Mens data
+df_all_mens &lt;- read_csv(&quot;data/allDataMen.csv&quot;, col_types = cols(Age = col_character()))
+
+# set the names for the df
+names(df_all_mens) &lt;- col_names
+
+# show how many rows in total dataset
+number_of_obs &lt;- dim(df_all_mens)[1]</code></pre>
+<p>This block of code will load the mens data.</p>
+<p><a id="function6252"></a></p>
+</div>
+<div id="formatting" class="section level4">
+<h4>Formatting</h4>
+<pre class="r"><code># eliminate rows with NR for age
+df_trim &lt;- df_all_mens[which(df_all_mens$age != &quot;NR&quot;),]
+
+# show how many eliminated from data
+dim(df_trim)
+
+# switch the age column from character to integer
+df_trim$age &lt;- as.integer(df_trim$age)
+
+# this will take the race column split on whitespace, and index year data
+minus &lt;- which(unlist(strsplit(df_trim$race, &quot;\\s&quot;)) != &quot;10M&quot;)
+
+# creates year column 
+df_trim$year &lt;- as.integer(unlist(strsplit(df_trim$race, &quot;\\s&quot;))[minus])
+
+# turns division column into factor
+df_trim$division &lt;- as.factor(df_trim$division)</code></pre>
+<p>This block provides formatting to the mens data frame, outlined in the methods section.</p>
+</div>
+</div>
+<div id="summary-dataframes" class="section level3">
+<h3>Summary Dataframes</h3>
+<p><a id="function6261"></a></p>
+<pre class="r"><code># create summary dataframe by year
+df_age_stats &lt;- df_trim %&gt;%
+                  group_by(year) %&gt;%
+                  summarize(
+                    mean = mean(age), 
+                    sd = sd(age),
+                    oldest = max(age),
+                    yngest = min(age),
+                    n=n(),
+                    skew = skewness(age)
+                    )
+
+# create dataframe of number of racers per division, per year
+df_div_stats &lt;- df_trim %&gt;%
+                  group_by(division, year) %&gt;%
+                  summarize(
+                    n=n()
+                    )
+
+# names for above dataframe, need to add data
+div_stat_names &lt;- c(&quot;division&quot;, &quot;year&quot;, &quot;n&quot;)
+
+# adding missing data
+df_row_to_add &lt;- data.frame(&quot;M8099&quot;, 2002, 0)
+df_row_to_add2 &lt;- data.frame(&quot;M8099&quot;, 2000, 0)
+names(df_row_to_add)&lt;-div_stat_names
+names(df_row_to_add2)&lt;-div_stat_names
+
+df_div_stats &lt;- rbind(df_div_stats, df_row_to_add)
+df_div_stats &lt;- rbind(df_div_stats, df_row_to_add2)
+
+
+# !!!!!!! This is where it errors for me !!!!!!!!!
+
+## It worked on my computer...lol, but really maybe it was that chunk I commented out I didn&#39;t run it -
+## when I went through it, I also didn&#39;t have all the right packages in at the top, so I had issues
+## making one of the dataframes the first run so maybe that might have been it
+
+# turn divisons into factors
+df_div_stats$division &lt;- as.factor(df_div_stats$division)
+
+# order the data correctly chronologically
+df_div_stats &lt;- df_div_stats[order(df_div_stats$division, df_div_stats$year),]</code></pre>
+<p>The above code chunks produce the summary dataframes which were investigated in the results section.</p>
+<p><a id="function627"></a></p>
+</div>
+<div id="changepoint" class="section level3">
+<h3>Changepoint</h3>
+<pre class="r"><code>m.amoc &lt;- cpt.mean(df_age_stats$mean, penalty = &quot;SIC&quot;)
+
+cpts(m.amoc)</code></pre>
+<pre><code>## [1] 8</code></pre>
+<pre class="r"><code>m.binseg &lt;- cpt.mean(df_age_stats$mean, method = &quot;BinSeg&quot;)
+
+cpts(m.binseg)</code></pre>
+<pre><code>## [1] 8</code></pre>
+<p>The above chunk finds the change point in the mean age of the men runners over the year range.</p>
+<p><a id="function628"></a></p>
+</div>
+</div>
+<div id="further-studies" class="section level2">
+<h2>Further Studies</h2>
+<pre class="r"><code>extract_state = function(string)
+  {
+  tmp &lt;- string
+  if (grepl(&quot;,&quot;, string) == &quot;TRUE&quot;){
+    tmp &lt;- str_trim(strsplit(string, &quot;,&quot;)[[1]][2])
+  }
+  return(tmp)
+}
+
+df_trim$state2 &lt;- unlist(lapply(df_trim$hometown, extract_state))
+
+df_trim$state &lt;- ifelse((grepl(&quot;,&quot;, df_trim$hometown) == &quot;TRUE&quot;),substr(df_trim$hometown, # nchar(df_trim$hometown) - 2, nchar(df_trim$hometown)), &quot;NaS&quot;)
+
+df_trim[which(str_locate(df_trim$hometown, &quot;,&quot;) - nchar(df_trim$hometown) != -3),]
+df_trim[-which(grepl(&quot;,&quot;, df_trim$hometown) == &quot;TRUE&quot; | nchar(df_trim$hometown) &lt;= 3),]
+
+unlist(unique(df_trim[-which(grepl(&quot;,&quot;, df_trim$hometown) == &quot;TRUE&quot; | nchar(df_trim$hometown) &lt;= # 3),&quot;hometown&quot;]))</code></pre>
+<p>The hometown feature requires a bit more formatting because it can contain a “city, state” combo for US runners or simply a country for international runners. The next code block splits the hometown field by the comma and when the comma is missing, it is presumed that the runner is international.</p>
+<p>For this analysis we are not interested at the state level, but we keep the state and international country data and we put both into a field called “state2”.</p>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
