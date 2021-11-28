@@ -9,3 +9,5 @@ navbar:
       href: RUPP_Jason-COVID_forcasting.html
     - text: "Neural Network"
       href: RUPP_Jason-tf_neuralNet_work_example.html
+    - text: "Index"
+      href: about_me.html
