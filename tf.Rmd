@@ -1,0 +1,16 @@
+---
+title: "Neural Network using tensorflow"
+output: 
+  html_document:
+    theme: cosmo
+---
+
+Here is an example of a project which involved replicating a neural network found in a journal article. This was a very challenging exercise, which I would love to expand upon, and get more experience in this domain.
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, echo=FALSE}
+htmltools::includeHTML('RUPP_Jason-tf_neuralNet_work_example.html')
+```

@@ -1,0 +1,16 @@
+---
+title: 'Machine Learning: Model Tuning'
+output: 
+  html_document:
+    theme: cosmo
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r, echo=FALSE}
+htmltools::includeHTML('RUPP_Jason-ML_modelTuning.html')
+```

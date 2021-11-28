@@ -3,11 +3,15 @@ output_dir: docs
 navbar:
   title: "Jason W. Rupp"
   left:
+    - text: "About Me"
+      href: index.html
     - text: "Machine Learning: Model Tuning"
-      href: RUPP_Jason-ML_modelTuning.html
-    - text: "COVID-19 Forecasting"
-      href: RUPP_Jason-COVID_forcasting.html
+      href: model_tuning.html
+    - text: "Data Wrangling and Visualization"
+      href: datawrag.html
+    - text: "Extreme Gradient Boost Tuning"
+      href: xg.html
     - text: "Neural Network"
-      href: RUPP_Jason-tf_neuralNet_work_example.html
-    - text: "Index"
-      href: about_me.html
+      href: tf.html
+    - text: "COVID-19 Forecasting"
+      href: covid.html

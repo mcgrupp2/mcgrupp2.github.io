@@ -1,22 +1,23 @@
 ---
-title: "JR Data Scientist Code Samples"
-author: "Jason Rupp"
+title: "Jason Rupp: Data Scientist"
+author: "Code Samples"
 output: 
   html_document:
-    theme: spacelab
+    theme: cosmo
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-### Data Driven Decisions
 
-Thank you for visiting my site, my name is Jason Rupp and I am a Data Scientist living in the Pacific Northwest. I have compiled some code samples from my Master's studies at Southern Methodist University. 
+Thank you for visiting my site, my name is Jason Rupp and I am a Data Scientist living in the Pacific Northwest. I have a Master of Science in Data Science from Southern Methodist University and I have compiled some code samples from my studies. 
 
 Please feel free to peruse the samples with the above navigation bar. These projects I completed during my Master's, they are in a report type format. The code samples are located at the end of most documents in the appendix section.
 
 I am currently doing research with the University of Washington. We are trying to use data to enhance the diagnostic ability of rapid diagnostic tests. I am associated with projects that are studying the use these models in the prediction of influenza and COVID-19, though we would like to apply these models to other infectious diseases.
+
+When I am not pursuing my data science interests, I am usually riding my bike, hiking, going on adventures with my daughter, or hanging out with my family!
 
 If you would like to see a further list of my qualifications, please visit my <a href="https://www.linkedin.com/in/jasonwilliamrupp/">LinkedIn Profile </a>
 
